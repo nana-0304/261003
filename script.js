@@ -15,7 +15,7 @@ const cards = document.querySelectorAll(".draw-card");
 // 카드 뽑기
 // ====================
 
-cards.forEach(function(card) {
+cards.forEach(function(card, index) {
 
     card.addEventListener("click", async function() {
 
@@ -28,7 +28,9 @@ cards.forEach(function(card) {
 
         // Supabase 함수 실행
         const { data, error } = await supabaseClient
-            .rpc("draw_random_save");
+            .rpc("draw_random_save", {
+                p_card_number: index + 1
+            });
 
         console.log("RPC 결과:", data);
         console.log("RPC 오류:", error);
@@ -71,7 +73,8 @@ resetButton.addEventListener("click", async function() {
 
     const { error } = await supabaseClient
         .from("save")
-        .update({ picked: false })
+        .update({ picked: false,
+                card_num: null })
         .neq("id", 0);
 
     if (error) {
@@ -108,6 +111,40 @@ supabaseClient
 
             console.log("DB 변경 감지:", payload);
 
+            const changedSave = payload.new;
+
+            // 쪽지가 뽑힌 경우
+            if (
+                changedSave.picked === true &&
+                changedSave.card_num !== null
+            ) {
+                const cardIndex = changedSave.card_num - 1;
+                const card = cards[cardIndex];
+
+                if (card) {
+                    card.querySelector(".card-content").textContent =
+                        changedSave.content;
+
+                    card.classList.add("selected");
+                    card.disabled = true;
+                }
+        }
+
+        // 초기화된 경우
+        if (
+            changedSave.picked === false &&
+            changedSave.card_num === null
+        ) {
+            cards.forEach(function(card) {
+
+                card.querySelector(".card-content").textContent = "❓";
+
+                card.classList.remove("selected");
+
+                card.disabled = false;
+
+            });
+        }
         }
     )
     .subscribe();
