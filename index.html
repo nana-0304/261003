@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>마니또 뽑기</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<body>
+
+    <h1>🎁 마니또 뽑기</h1>
+
+    <p>원하는 쪽지를 하나 선택하세요!</p>
+
+    <div class="draw-container">
+
+        <button class="draw-card" data-number="1">
+            <span class="card-number">쪽지 1</span>
+            <span class="card-content">❓</span>
+        </button>
+
+        <button class="draw-card" data-number="2">
+            <span class="card-number">쪽지 2</span>
+            <span class="card-content">❓</span>
+        </button>
+
+        <button class="draw-card" data-number="3">
+            <span class="card-number">쪽지 3</span>
+            <span class="card-content">❓</span>
+        </button>
+
+        <button class="draw-card" data-number="4">
+            <span class="card-number">쪽지 4</span>
+            <span class="card-content">❓</span>
+        </button>
+
+    </div>
+    
+    <button id="reset-button">
+        <span class="card-number">초기화</span>
+    </button>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
