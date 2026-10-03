@@ -1,4 +1,4 @@
-console.log("내 script.js 실행됨!")
+console.log("내 script.js 실행됨!");
 
 const supabaseUrl = "https://dviihusxrbhrmvcwqryn.supabase.co";
 const supabaseKey = "sb_publishable_mkYmk_u9tvmIiTH2ALP8Vg_cq4QlEJE";
@@ -10,6 +10,10 @@ const supabaseClient = window.supabase.createClient(
 
 const cards = document.querySelectorAll(".draw-card");
 
+
+// ====================
+// 카드 뽑기
+// ====================
 
 cards.forEach(function(card) {
 
@@ -54,10 +58,16 @@ cards.forEach(function(card) {
 
     });
 
-    // 초기화 버튼
-    const resetButton = document.getElementById("reset-button");
+});
 
-    resetButton.addEventListener("click", async function() {
+
+// ====================
+// 초기화 버튼
+// ====================
+
+const resetButton = document.getElementById("reset-button");
+
+resetButton.addEventListener("click", async function() {
 
     const { error } = await supabaseClient
         .from("save")
@@ -77,9 +87,15 @@ cards.forEach(function(card) {
     });
 
     console.log("쪽지 초기화 완료!");
-    });
 
-    supabaseClient
+});
+
+
+// ====================
+// Supabase Realtime
+// ====================
+
+supabaseClient
     .channel("save-realtime")
     .on(
         "postgres_changes",
@@ -95,4 +111,3 @@ cards.forEach(function(card) {
         }
     )
     .subscribe();
-});
