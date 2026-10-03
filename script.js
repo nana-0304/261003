@@ -78,4 +78,21 @@ cards.forEach(function(card) {
 
     console.log("쪽지 초기화 완료!");
     });
+
+    supabaseClient
+    .channel("save-realtime")
+    .on(
+        "postgres_changes",
+        {
+            event: "UPDATE",
+            schema: "public",
+            table: "save"
+        },
+        function(payload) {
+
+            console.log("DB 변경 감지:", payload);
+
+        }
+    )
+    .subscribe();
 });
