@@ -31,7 +31,7 @@ async function loadPickedCards() {
 
     const { data, error } = await supabaseClient
         .from("save")
-        .select("id, content, picked, card_num")
+        .select("id, content, picked, card_num, picked_by")
         .eq("picked", true);
 
     if (error) {
@@ -40,6 +40,8 @@ async function loadPickedCards() {
     }
 
     console.log("기존에 뽑힌 쪽지:", data);
+
+    let iHavePicked = false;
 
     data.forEach(function(save) {
 
@@ -50,16 +52,47 @@ async function loadPickedCards() {
         const cardIndex = save.card_num - 1;
         const card = cards[cardIndex];
 
-        if (card) {
+        if (!card) {
+            return;
+        }
 
-            // 다른 사용자는 실제 내용은 보지 못하게 함
+        // 내가 뽑은 쪽지
+        if (save.picked_by === userId) {
+
             card.querySelector(".card-content").textContent =
-                "쪽지가 뽑혔습니다.";
+                save.content;
+
+            iHavePicked = true;
+
+        }
+
+        // 다른 사람이 뽑은 쪽지
+        else {
+
+            card.querySelector(".card-content").textContent =
+                "이미 뽑힌 쪽지";
+
+        }
+
+        // 이미 뽑힌 카드는 누구든 다시 클릭할 수 없음
+        card.classList.add("selected");
+        card.disabled = true;
+
+    });
+
+    // 내가 이미 하나 뽑았다면
+    // 나머지 카드도 전부 클릭할 수 없게 함
+    if (iHavePicked) {
+
+        cards.forEach(function(card) {
 
             card.classList.add("selected");
             card.disabled = true;
-        }
-    });
+
+        });
+
+    }
+
 }
 
 // ====================
