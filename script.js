@@ -11,6 +11,19 @@ const supabaseClient = window.supabase.createClient(
 const cards = document.querySelectorAll(".draw-card");
 
 // ====================
+// 사용자 ID
+// ====================
+
+let userId = localStorage.getItem("raffle_user_id");
+
+if (!userId) {
+    userId = crypto.randomUUID();
+    localStorage.setItem("raffle_user_id", userId);
+}
+
+console.log("내 사용자 ID:", userId);
+
+// ====================
 // 기존에 뽑힌 쪽지 상태 불러오기
 // ====================
 
@@ -41,7 +54,7 @@ async function loadPickedCards() {
 
             // 다른 사용자는 실제 내용은 보지 못하게 함
             card.querySelector(".card-content").textContent =
-                "이미 뽑힌 쪽지";
+                "쪽지가 뽑혔습니다.";
 
             card.classList.add("selected");
             card.disabled = true;
@@ -67,7 +80,8 @@ cards.forEach(function(card, index) {
         // Supabase 함수 실행
         const { data, error } = await supabaseClient
             .rpc("draw_random_save", {
-                p_card_number: index + 1
+                p_card_number: index + 1,
+                p_user_id: userId
             });
 
         console.log("RPC 결과:", data);
