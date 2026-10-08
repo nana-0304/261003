@@ -143,6 +143,15 @@ cards.forEach(function(card, index) {
         card.classList.add("selected");
         card.disabled = true;
 
+        // 내가 이미 하나 뽑았으므로
+        // 다른 모든 카드도 클릭할 수 없게 함
+        cards.forEach(function(otherCard) {
+
+            otherCard.classList.add("selected");
+            otherCard.disabled = true;
+
+        });
+
     });
 
 });
