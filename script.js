@@ -10,6 +10,44 @@ const supabaseClient = window.supabase.createClient(
 
 const cards = document.querySelectorAll(".draw-card");
 
+// ====================
+// 기존에 뽑힌 쪽지 상태 불러오기
+// ====================
+
+async function loadPickedCards() {
+
+    const { data, error } = await supabaseClient
+        .from("save")
+        .select("id, content, picked, card_num")
+        .eq("picked", true);
+
+    if (error) {
+        console.error("기존 상태 불러오기 오류:", error);
+        return;
+    }
+
+    console.log("기존에 뽑힌 쪽지:", data);
+
+    data.forEach(function(save) {
+
+        if (save.card_num === null) {
+            return;
+        }
+
+        const cardIndex = save.card_num - 1;
+        const card = cards[cardIndex];
+
+        if (card) {
+
+            // 다른 사용자는 실제 내용은 보지 못하게 함
+            card.querySelector(".card-content").textContent =
+                "이미 뽑힌 쪽지";
+
+            card.classList.add("selected");
+            card.disabled = true;
+        }
+    });
+}
 
 // ====================
 // 카드 뽑기
@@ -148,3 +186,5 @@ supabaseClient
         }
     )
     .subscribe();
+
+    loadPickedCards();
