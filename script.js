@@ -221,13 +221,37 @@ supabaseClient
                 const card = cards[cardIndex];
 
                 if (card) {
-                    card.querySelector(".card-content").textContent =
-                        changedSave.content;
 
+                    // 내가 뽑은 쪽지라면 실제 내용 표시
+                    if (changedSave.picked_by === userId) {
+
+                        card.querySelector(".card-content").textContent =
+                            changedSave.content;
+
+                    } else {
+
+                        // 다른 사람이 뽑았다면 내용 숨기기
+                        card.querySelector(".card-content").textContent =
+                            "이미 뽑힌 쪽지";
+
+                    }
+
+                    // 이미 뽑힌 카드는 다시 선택할 수 없음
                     card.classList.add("selected");
                     card.disabled = true;
                 }
-        }
+
+                // 내가 이미 쪽지를 뽑았다면
+                // 나머지 카드도 비활성화
+                if (changedSave.picked_by === userId) {
+
+                    cards.forEach(function(otherCard) {
+                        otherCard.classList.add("selected");
+                        otherCard.disabled = true;
+                    });
+
+                }
+            }
 
         // 초기화된 경우
         if (
