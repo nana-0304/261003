@@ -45,7 +45,83 @@
         <span class="card-number">초기화</span>
     </button>
 
-    <script src="script.js"></script>
+    <!-- 메뉴 버튼 -->
+    <button id="menu-button" aria-label="메뉴 열기">
+        ☰
+    </button>
 
+    <!-- 배경 오버레이 -->
+    <div id="sidebar-overlay"></div>
+
+    <!-- 오른쪽 사이드바 -->
+    <aside id="sidebar">
+        <button id="close-sidebar" aria-label="메뉴 닫기">
+            ✕
+        </button>
+
+        <h2>역대 마니또 진행상황</h2>
+        <h3>2014년 ~ing</h3>
+
+        <div class="sidebar-content">
+            <button class="toggle-button" data-target="info1">
+                제3회 18.12.25. 독바위 파티룸 ▼
+            </button>
+            <div class="toggle-content" id="info1" hidden>
+                <p>민재<>나연, 지아<>서희</p>
+            </div>
+
+            <button class="toggle-button" data-target="info2">
+                제4회 19.12.08. 연신내 카페 ▼
+            </button>
+            <div class="toggle-content" id="info2" hidden>
+                <p>민재<>나연, 지아<>서희</p>
+            </div>
+
+            <button class="toggle-button" data-target="info3">
+                제5회 20.12.26. ZOOM ▼
+            </button>
+            <div class="toggle-content" id="info3" hidden>
+                <p>민재>서희>나연>지아>민재</p>
+            </div>
+
+            <button class="toggle-button" data-target="info4">
+                제6회 21.12.24. 녹번동 스튜디오▼
+            </button>
+            <div class="toggle-content" id="info4" hidden>
+                <p>민재<>나연, 지아<>서희</p>
+            </div>
+
+            <button class="toggle-button" data-target="info5">
+                제7회 22.12.03. 역촌동 카페 ▼
+            </button>
+            <div class="toggle-content" id="info5" hidden>
+                <p>민재>나연>서희>지아>민재</p>
+            </div>
+
+            <button class="toggle-button" data-target="info6">
+                제8회 23.12.23. 서교동 파티룸 ▼
+            </button>
+            <div class="toggle-content" id="info6" hidden>
+                <p>민재>지아>서희>나연>민재</p>
+            </div>
+
+            <button class="toggle-button" data-target="info7">
+                제9회 24.12.14. 이천시 민재네 ▼
+            </button>
+            <div class="toggle-content" id="info7" hidden>
+                <p>민재>지아>서희>나연>민재</p>
+            </div>
+
+            <button class="toggle-button" data-target="info8">
+                제10회 25.12.21. 대전 ▼
+            </button>
+            <div class="toggle-content" id="info8" hidden>
+                <p>민재<>지아, 서희<>나연</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 자바스크립트는 HTML 요소들을 모두 만든 다음 실행 -->
+    <script src="script.js"></script>
 </body>
 </html>

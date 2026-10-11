@@ -163,30 +163,54 @@ cards.forEach(function(card, index) {
 
 
 // ====================
-// 초기화 버튼
+// 비밀번호로 초기화 보호
 // ====================
 
 const resetButton = document.getElementById("reset-button");
 
+// 원하는 비밀번호로 변경
+const resetPassword = "1004";
+
 resetButton.addEventListener("click", async function() {
 
+    // 비밀번호 입력창
+    const enteredPassword = prompt("초기화 비밀번호를 입력하세요.");
+
+    // 취소 버튼을 누른 경우
+    if (enteredPassword === null) {
+        return;
+    }
+
+    // 비밀번호 확인
+    if (enteredPassword !== resetPassword) {
+        alert("비밀번호가 틀렸습니다.");
+        return;
+    }
+
+    // 초기화 실행
     const { error } = await supabaseClient
         .from("save")
-        .update({ picked: false,
-                card_num: null })
+        .update({
+            picked: false,
+            card_num: null,
+            picked_by: null
+        })
         .neq("id", 0);
 
     if (error) {
         console.error("초기화 오류:", error);
+        alert("초기화에 실패했습니다.");
         return;
     }
 
-    // 카드 화면 초기화
+    // 모든 카드 화면 초기화
     cards.forEach(function(card) {
         card.querySelector(".card-content").textContent = "❓";
         card.classList.remove("selected");
         card.disabled = false;
     });
+
+    alert("모든 카드가 초기화되었습니다.");
 
     console.log("쪽지 초기화 완료!");
 
@@ -273,3 +297,63 @@ supabaseClient
     .subscribe();
 
     loadPickedCards();
+
+    // ====================
+    // 사이드바 열기 / 닫기
+    // ====================
+
+    const menuButton = document.getElementById("menu-button");
+    const sidebar = document.getElementById("sidebar");
+    const closeSidebar = document.getElementById("close-sidebar");
+    const sidebarOverlay = document.getElementById("sidebar-overlay");
+
+    function openSidebar() {
+        sidebar.classList.add("open");
+        sidebarOverlay.classList.add("open");
+    }
+
+    function closeSidebarMenu() {
+        sidebar.classList.remove("open");
+        sidebarOverlay.classList.remove("open");
+    }
+
+    // 메뉴 버튼 클릭
+    menuButton.addEventListener("click", openSidebar);
+
+    // X 버튼 클릭
+    closeSidebar.addEventListener("click", closeSidebarMenu);
+
+    // 어두운 배경 클릭
+    sidebarOverlay.addEventListener("click", closeSidebarMenu);
+
+    // ESC 키로 닫기
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            closeSidebarMenu();
+        }
+    });
+
+// ====================
+// 사이드바 토글 기능
+// ====================
+
+const toggleButtons = document.querySelectorAll(".toggle-button");
+
+toggleButtons.forEach(function(button) {
+
+    button.addEventListener("click", function() {
+
+        const targetId = button.dataset.target;
+        const content = document.getElementById(targetId);
+
+        if (!content) return;
+
+        content.hidden = !content.hidden;
+
+        button.textContent = content.hidden
+            ? button.textContent.replace("▲", "▼")
+            : button.textContent.replace("▼", "▲");
+
+    });
+
+});

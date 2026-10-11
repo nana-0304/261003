@@ -65,3 +65,110 @@ h1 {
 .draw-card.selected:hover {
     transform: none;
 }
+
+/* 메뉴 버튼 */
+#menu-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+
+    font-size: 28px;
+    background: white;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 화면을 덮는 어두운 배경 */
+#sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1001;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* 사이드바 */
+#sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+
+    width: 300px;
+    max-width: 85vw;
+    height: 100vh;
+    height: 100dvh;
+
+    box-sizing: border-box;
+    padding: 70px 24px 24px;
+    background: white;
+    color: #222;
+
+    z-index: 1002;
+    overflow-y: auto;
+
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 닫기 버튼 */
+#close-sidebar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    font-size: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* 사이드바 안의 제목 */
+#sidebar h2 {
+    margin-top: 0;
+    margin-bottom: 24px;
+}
+
+/* 사이드바 안의 글 */
+.sidebar-content p {
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+/* 열렸을 때 적용 */
+#sidebar.open {
+    transform: translateX(0);
+}
+
+#sidebar-overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.toggle-button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    text-align: left;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    background: #f0f0f0;
+    font-size: 16px;
+}
+
+.toggle-content {
+    padding: 10px;
+}
+
+.toggle-content[hidden] {
+    display: none;
+}
