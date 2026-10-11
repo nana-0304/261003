@@ -126,9 +126,14 @@ cards.forEach(function(card, index) {
             return;
         }
 
-        // 남은 쪽지가 없음
+        // DB에서 선택이 거절된 경우
         if (!data || data.length === 0) {
-            alert("남은 쪽지가 없습니다!");
+
+            // 최신 상태를 DB에서 다시 확인
+            await loadPickedCards();
+
+            alert("이미 쪽지를 뽑았거나, 다른 사람이 먼저 뽑은 카드입니다.");
+
             return;
         }
 
